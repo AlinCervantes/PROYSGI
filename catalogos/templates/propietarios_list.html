@@ -1,40 +1,88 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Listado de Propietarios{% endblock %}
+{% block titulo %}Propietarios Registrados{% endblock %}
 
 {% block contenido %}
-<a href="{% url 'propietariosCrear' %}" class="btn btn-info"><span class="fa fa-plus-circle">Nuevo Propietario</span></a>
-    {% if propietarios %}
-        <table class="table table-striped table-dark" border="3">
-            <thead class="thead-dark">
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-users"></i> Registro de Propietarios</h2>
+        <a href="{% url 'propietariosCrear' %}" class="btn btn-success">
+            <i class="fas fa-user-plus"></i> Nuevo Propietario
+        </a>
+    </div>
+
+    <!-- FILTROS ESPECÍFICOS PARA PROPIETARIOS -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label>Buscar:</label>
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Nombre, RFC, CURP..."
+                           value="{{ request.GET.search|default:'' }}">
+                </div>
+                <div class="col-md-4">
+                    <label>Municipio:</label>
+                    <select name="municipio" class="form-select">
+                        <option value="">Todos</option>
+                        {% for mun in municipios %}
+                        <option value="{{ mun }}" {% if request.GET.municipio == mun %}selected{% endif %}>
+                            {{ mun }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABLA DE PROPIETARIOS -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-dark">
                 <tr>
-                    <td style="color: black;" align="center"> <b>ID</td>
-                    <td style="color: black;" align="center"> <b>RFC</td>
-                    <td style="color: black;" align="center"> <b>Nombre</td>
-                    <td style="color: black;"" align="center"> <b>ApPaterno</td>
-                    <td style="color: black;" align="center"> <b>ApMaterno</td>
-                    <td style="color: black;" align="center"> <b>CURP</td>
-                    <td style="color: black;" align="center"> <b>Opciones</td>
+                    <th>Nombre Completo</th>
+                    <th>RFC</th>
+                    <th>CURP</th>
+                    <th>Municipio</th>
+                    <th>Edad</th>
+                    <th>Teléfono</th>
+                    <th>Registro</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody class="tbody-ligth">
-                {% for item in propietarios %}
+            <tbody>
+                {% for p in propietarios %}
                 <tr>
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.RFC }}</td>
-                    <td>{{ item.nombre }}</td>
-                    <td>{{ item.apPaterno }}</td>
-                    <td>{{ item.apMaterno }}</td>
-                    <td>{{ item.CURP }}</td>
-                    <td> 
-                        <a class="btn btn-warning" href="{% url 'propietariosEditar' item.id %}">Editar</a>
-                        <a class="btn btn-danger" href="{% url 'propietariosEliminar' item.id %}">Eliminar</a>
+                    <td>{{ p.nombre_completo }}</td>
+                    <td><code>{{ p.RFC }}</code></td>
+                    <td><code>{{ p.CURP }}</code></td>
+                    <td>{{ p.municipio }}</td>
+                    <td><span class="badge bg-info">{{ p.edad }} años</span></td>
+                    <td>{{ p.telefono|default:"-" }}</td>
+                    <td>{{ p.fecha_registro|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{% url 'propietariosEditar' p.id %}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'propietariosEliminar' p.id %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
+                {% empty %}
+                <tr><td colspan="8" class="text-center">No hay propietarios</td></tr>
                 {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <h5 style="color:red">No hay propietarios registrados</h5>
-    {% endif %}
+    </div>
+</div>
 {% endblock %}
