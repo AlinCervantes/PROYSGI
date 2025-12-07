@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Vehiculo(models.Model):
@@ -7,9 +8,16 @@ class Vehiculo(models.Model):
     marca = models.CharField(max_length=40)
     linea= models.CharField(max_length=40)
     modelo= models.CharField(max_length=4)
+    color= models.CharField(max_length=20, default='Blanco', verbose_name="Color del Vehiculo") #Añadido
+    activo = models.BooleanField(default=True, verbose_name="¿Vehiculo Activo?") #Añadido
     
+
     def __str__(self):
         return '%s - %s - %s' % (self.NIV, self.marca, self.linea)
+    
+    @property
+    def descripcion_completa(self):
+        return f"{self.marca} {self.linea} {self.modelo} - {self.color}"
     
     """def __save__(self):
         self.NIV = self.NIV.upper()
@@ -38,6 +46,8 @@ class Propietario(models.Model):
     municipio = models.CharField(max_length=40)
     CP = models.CharField(max_length=5)
     edad = models.IntegerField(default=0)
+    telefono = models.CharField(max_length=10) #Añadido
+    fechaRegistro = models.DateField(auto_now_add=True, verbose_name="Fecha de registro") #Añadido
     
     def __str__(self):
         return '%s - %s - %s' % (self.nombre, self.apPaterno, self.apMaterno)
@@ -56,6 +66,9 @@ class Oficina(models.Model):
     nombre = models.CharField(max_length=40)
     ciudad = models.CharField(max_length=40)
     telefono = models.CharField(max_length=10)
+    encargado = models.CharField(max_length=50, blank=True, verbose_name="Nombre del Encargado") #Añadido
+    horario = models.CharField(max_length=50, blank=True, default='9:00 - 18:00', verbose_name="Horario de Atención") #Añadido
+    activo = models.BooleanField(default=True, verbose_name="¿Oficina Activa?") #Añadido
     
     def __str__(self):
         return "%s" % (self.nombre)
