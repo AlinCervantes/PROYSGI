@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Estadísticas del Sistema{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="fas fa-chart-line"></i> Estadísticas del Sistema</h2>
+    
+    <!-- TARJETAS RESUMEN -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body text-center">
+                    <h1 class="display-4">{{ total_vehiculos }}</h1>
+                    <h5><i class="fas fa-car"></i> Vehículos</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h1 class="display-4">{{ total_propietarios }}</h1>
+                    <h5><i class="fas fa-users"></i> Propietarios</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body text-center">
+                    <h1 class="display-4">{{ total_oficinas }}</h1>
+                    <h5><i class="fas fa-building"></i> Oficinas Activas</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRÁFICO DE VEHÍCULOS POR MARCA -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-tags"></i> Vehículos por Marca</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Marca</th>
+                                <th>Cantidad</th>
+                                <th>Porcentaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in vehiculos_por_marca %}
+                            <tr>
+                                <td>{{ item.marca }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ item.total }}</span>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        {% widthratio item.total total_vehiculos 100 as porcentaje %}
+                                        <div class="progress-bar" role="progressbar" 
+                                             style="width: {{ porcentaje }}%">
+                                            {{ porcentaje }}%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROPIETARIOS POR MUNICIPIO -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Propietarios por Municipio (Top 5)</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for item in propietarios_por_municipio %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ item.municipio|default:"Sin municipio" }}
+                            <span class="badge bg-primary rounded-pill">{{ item.total }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORMACIÓN DEL SISTEMA -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Información del Sistema</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Últimos Registros:</h6>
+                            <ul>
+                                <li><strong>Vehículo más reciente:</strong> 
+                                    {% with vehiculo=vehiculos.last %}
+                                        {% if vehiculo %}
+                                            {{ vehiculo.marca }} {{ vehiculo.linea }} ({{ vehiculo.fecha_registro|date:"d/m/Y" }})
+                                        {% else %}
+                                            No hay registros
+                                        {% endif %}
+                                    {% endwith %}
+                                </li>
+                                <li><strong>Propietario más reciente:</strong>
+                                    {% with prop=propietarios.last %}
+                                        {% if prop %}
+                                            {{ prop.nombre_completo }} ({{ prop.fecha_registro|date:"d/m/Y" }})
+                                        {% else %}
+                                            No hay registros
+                                        {% endif %}
+                                    {% endwith %}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Acciones Rápidas:</h6>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'vehiculosCrear' %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-plus"></i> Agregar Vehículo
+                                </a>
+                                <a href="{% url 'propietariosCrear' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-user-plus"></i> Agregar Propietario
+                                </a>
+                                <a href="{% url 'oficinasCrear' %}" class="btn btn-outline-info">
+                                    <i class="fas fa-building"></i> Agregar Oficina
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ESTILOS ADICIONALES -->
+<style>
+    .card {
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .progress {
+        height: 20px;
+    }
+    .display-4 {
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
