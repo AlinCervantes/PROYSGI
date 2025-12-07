@@ -11,14 +11,20 @@ class Vehiculo(models.Model):
     def __str__(self):
         return '%s - %s - %s' % (self.NIV, self.marca, self.linea)
     
-    def __save__(self):
+    """def __save__(self):
         self.NIV = self.NIV.upper()
         self.noMotor = self.noMotor.upper()
-        super(Vehiculo, self.save())
+        super(Vehiculo, self.save())"""
     
-    class meta:
-        verbose_name_plural = "VEHICULOS"
-        db_table = 'vehiculos'
+    def save(self, *args, **kwargs):  # Cambia __save__ por save
+        self.NIV = self.NIV.upper()
+        if self.noMotor:
+            self.noMotor = self.noMotor.upper()
+        super().save(*args, **kwargs)
+    
+    class Meta:  # NO class meta
+        verbose_name_plural = "Vehiculos"  # Opcional cambiar nombre
+        db_table = 'vehiculos'  # Opcional cambiar nombre tabla
         
 class Propietario(models.Model):
     RFC = models.CharField(max_length=50)
@@ -36,9 +42,15 @@ class Propietario(models.Model):
     def __str__(self):
         return '%s - %s - %s' % (self.nombre, self.apPaterno, self.apMaterno)
     
+    '''
     def __save__(self):
         self.CURP = self.CURP.upper()
         super(Propietario,self).save()
+    '''
+
+    def save(self, *args, **kwargs):  # Cambia __save__ por save
+        self.CURP = self.CURP.upper()
+        super().save(*args, **kwargs)
             
 class Oficina(models.Model):
     nombre = models.CharField(max_length=40)
