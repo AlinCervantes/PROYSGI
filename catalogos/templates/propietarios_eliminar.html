@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminando propietarios{% endblock%}
+
+{% block contenido %}
+    <form action="" method="post">
+       {% csrf_token %}
+       <h2>Estas eliminando el siguiente propietario:</h2>
+       <h4>{{propietario.RFC}}</h4>
+       <h4>{{propietario.nombre}}</h4>
+       <h4>{{propietario.apPaterno}}</h4>
+       <h4>{{propietario.apMaterno}}</h4>
+       <h2>¿Estás seguro(a) de eliminarlo?</h2>
+       <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+       <a href="{% url 'propietariosListar' %}" class="btn btn-success">No, Cancelar</a>
+    </form>
+{% endblock %}

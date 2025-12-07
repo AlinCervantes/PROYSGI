@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Listado de Vehiculos{% endblock %}
+
+{% block contenido %}
+<a href="{% url 'vehiculosCrear' %}" class="btn btn-info"><span class="fa fa-plus-circle">Nuevo Vehiculo</span></a>
+    {% if vehiculos %}
+        <table border="4">
+          <thead>
+            <tr>
+              <td>NIV</td>
+              <td>No. Motor</td>
+              <td>Marca</td>
+              <td>Linea</td>
+              <td>Modelo</td>
+              <td>Opciones</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in vehiculos %}
+            <tr>
+              <td>{{ item.NIV }}</td>
+              <td>{{ item.noMotor }}</td>
+              <td>{{ item.marca }}</td>
+              <td>{{ item.linea }}</td>
+              <td>{{ item.modelo}}</td>
+              <td>Editar | Eliminar</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    {% else %}
+       <h1>No hay registros</h1>
+    {% endif %}
+{% endblock %}
+

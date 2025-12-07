@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Listado de Oficinas{% endblock %}
+
+{% block contenido %} 
+    <h1>Listado de Oficinas</h1>
+    <a href={% url 'oficinasCrear' %} class="btn btn-primary">Nueva Oficina</a>
+    <table border="1">
+      <thead style="color:black">
+        <tr style="background: cyan;">
+          <td><b>Nombre</b></td>
+          <td>Ciudad</td>
+          <td>Telefono</td>
+          <td>Opciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in oficinas %}
+        <tr>
+          <td>{{item.nombre}}</td>
+          <td>{{item.ciudad}}</td>
+          <td>{{item.telefono}}</td>
+          <td>
+            
+            <a class="btn btn-secondary" href="{% url 'oficinasEditar' item.id %}">Editar</a>
+            <a class="btn btn-danger" href="#" role="button">Eliminar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>    
+{% endblock %}
+

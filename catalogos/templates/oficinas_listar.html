@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Listado de Oficinas{% endblock %}
+
+{% block contenido %} 
+    <h1>Listado de Oficinas</h1>
+    <a href={% url 'oficinasCrear' %} class="btn btn-primary">Nueva Oficina</a>
+    <table class="table" border="3">
+      <thead style="background-color: cyan;">
+        <tr>
+          <td>ID</td>
+          <td><b>Nombre</b></td>
+          <td>Ciudad</td>
+          <td>Telefono</td>
+          <td>Opciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in oficinas %}
+        <tr>
+          <td>{{item.id}}</td>
+          <td>{{item.nombre}}</td>
+          <td>{{item.ciudad}}</td>
+          <td>{{item.telefono}}</td>
+          <td>
+            <a class="btn btn-secondary" href="{% url 'oficinasEditar' item.id %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'oficinasEliminar' item.id %}" role="button">Eliminar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>    
+{% endblock %}
+

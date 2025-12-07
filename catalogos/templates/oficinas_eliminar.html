@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminando Oficina{% endblock%}
+
+{% block contenido %}
+    <form action="" method="post">
+       {% csrf_token %}
+       <h2>¿Estás seguro(a) de eliminar la oficina {{ oficina.nombre }}?</h2>
+       <button type="submit" class="btn btn-danger">Eliminar</button>
+       <a href="{% url 'oficinasListar' %}" class="btn btn-success">Cancelar</a>
+    </form>
+{% endblock %}
+

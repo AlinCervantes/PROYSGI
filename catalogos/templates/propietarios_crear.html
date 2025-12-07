@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Captura de propietarios{% endblock %}
+
+{% block contenido %} 
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
+        <a href="{% url 'propietariosListar' %}" class="btn btn-success"><span class="fa fa-undo"></span>Cancelar</a>
+    </form>
+{% endblock %}
