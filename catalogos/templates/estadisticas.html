@@ -114,6 +114,32 @@
                                     <li><strong>Municipios con registros:</strong> {{ propietarios_por_municipio|length }}</li>
                                 </ul>
                             </div>
+                            <div class="col-md-6">
+                                <h6>Últimos Registros:</h6>
+                                <ul>
+                                    <li><strong>Vehículo más reciente:</strong> 
+                                        {% with vehiculo=vehiculos.last %}
+                                            {% if vehiculo %}
+                                                {{ vehiculo.marca }} {{ vehiculo.linea }}
+                                            {% else %}
+                                                No hay registros
+                                            {% endif %}
+                                        {% endwith %}
+                                    </li>
+                                    <li><strong>Propietario más reciente:</strong>
+                                        {% with prop=propietarios.last %}
+                                            {% if prop %}
+                                                {{ prop.nombre }} {{ prop.apPaterno }} {{ prop.apMaterno }}
+                                                {% if prop.fechaRegistro %}
+                                                    ({{ prop.fechaRegistro|date:"d/m/Y" }})
+                                                {% endif %}
+                                            {% else %}
+                                                No hay registros
+                                            {% endif %}
+                                        {% endwith %}
+                                    </li>
+                                </ul>
+                            </div>           
                         </div>
                         <div class="col-md-6">
                             <h6>Acciones Rápidas:</h6>

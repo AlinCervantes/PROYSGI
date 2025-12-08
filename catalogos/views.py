@@ -6,9 +6,19 @@ from django.db.models import Count
 
 # Create your views here.
 def homeCatalogos(request):
+    # Obtener conteos
+    total_vehiculos = Vehiculo.objects.count()
+    total_propietarios = Propietario.objects.count()
+    total_oficinas = Oficina.objects.filter(activo=True).count()
+    
     return render(
         request,
-        'homeCatalogos.html'
+        'homeCatalogos.html',
+        {
+            'total_vehiculos': total_vehiculos,
+            'total_propietarios': total_propietarios,
+            'total_oficinas': total_oficinas,
+        }
     )
     
 def oficinaListar(request):
