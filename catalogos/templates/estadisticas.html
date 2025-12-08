@@ -104,27 +104,16 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h6>Últimos Registros:</h6>
-                            <ul>
-                                <li><strong>Vehículo más reciente:</strong> 
-                                    {% with vehiculo=vehiculos.last %}
-                                        {% if vehiculo %}
-                                            {{ vehiculo.marca }} {{ vehiculo.linea }} ({{ vehiculo.fecha_registro|date:"d/m/Y" }})
-                                        {% else %}
-                                            No hay registros
-                                        {% endif %}
-                                    {% endwith %}
-                                </li>
-                                <li><strong>Propietario más reciente:</strong>
-                                    {% with prop=propietarios.last %}
-                                        {% if prop %}
-                                            {{ prop.nombre_completo }} ({{ prop.fecha_registro|date:"d/m/Y" }})
-                                        {% else %}
-                                            No hay registros
-                                        {% endif %}
-                                    {% endwith %}
-                                </li>
-                            </ul>
+                            <div class="col-md-6">
+                                <h6>Resumen del Sistema:</h6>
+                                <ul>
+                                    <li><strong>Vehículos registrados:</strong> {{ total_vehiculos }}</li>
+                                    <li><strong>Propietarios activos:</strong> {{ total_propietarios }}</li>
+                                    <li><strong>Oficinas operando:</strong> {{ total_oficinas }}</li>
+                                    <li><strong>Marcas únicas:</strong> {{ vehiculos_por_marca|length }}</li>
+                                    <li><strong>Municipios con registros:</strong> {{ propietarios_por_municipio|length }}</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <h6>Acciones Rápidas:</h6>

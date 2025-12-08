@@ -20,4 +20,6 @@ urlpatterns = [
     path('propietarios/editar/<int:id>', views.propietariosEditar, name='propietariosEditar'),
     path('propietarios/eliminar/<int:pk>', views.propietariosEliminar, name='propietariosEliminar'),
 
+    path('estadisticas/', views.estadisticas, name='estadisticas'),
+
 ]

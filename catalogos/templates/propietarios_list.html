@@ -50,6 +50,8 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nombre Completo</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
                     <th>RFC</th>
                     <th>CURP</th>
                     <th>Municipio</th>
@@ -62,13 +64,15 @@
             <tbody>
                 {% for p in propietarios %}
                 <tr>
-                    <td>{{ p.nombre_completo }}</td>
+                    <td>{{ p.nombre }}</td>
+                    <td>{{ p.apPaterno }}</td>
+                    <td>{{ p.apMaterno }}</td>
                     <td><code>{{ p.RFC }}</code></td>
                     <td><code>{{ p.CURP }}</code></td>
                     <td>{{ p.municipio }}</td>
                     <td><span class="badge bg-info">{{ p.edad }} años</span></td>
                     <td>{{ p.telefono|default:"-" }}</td>
-                    <td>{{ p.fecha_registro|date:"d/m/Y" }}</td>
+                    <td>{{ p.fechaRegistro|date:"d/m/Y" }}</td>
                     <td>
                         <a href="{% url 'propietariosEditar' p.id %}" class="btn btn-sm btn-warning">
                             <i class="fas fa-edit"></i>

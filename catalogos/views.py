@@ -172,7 +172,7 @@ from django.db.models import Count  # AGREGAR ESTA IMPORT
 def estadisticas(request):
     total_vehiculos = Vehiculo.objects.count()
     total_propietarios = Propietario.objects.count()
-    total_oficinas = Oficina.objects.filter(activa=True).count()
+    total_oficinas = Oficina.objects.filter(activo=True).count()
     
     vehiculos_por_marca = Vehiculo.objects.values('marca').annotate(
         total=Count('id')
@@ -183,8 +183,9 @@ def estadisticas(request):
     ).order_by('-total')[:5]
     
     # Agregar estos para la información del sistema
-    vehiculos = Vehiculo.objects.all().order_by('-fecha_registro')
-    propietarios = Propietario.objects.all().order_by('-fecha_registro')
+    vehiculos = Vehiculo.objects.all().order_by('-id')
+    #propietarios = Propietario.objects.all().order_by('-fecha_registro') #Arreglado la incosistencia de nombre
+    propietarios = Propietario.objects.all()
     
     context = {
         'total_vehiculos': total_vehiculos,
