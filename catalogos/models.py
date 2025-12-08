@@ -47,7 +47,7 @@ class Propietario(models.Model):
     CP = models.CharField(max_length=5)
     edad = models.IntegerField(default=0)
     telefono = models.CharField(max_length=10) #Añadido
-    fecha_registro = models.DateField(auto_now_add=True, verbose_name="Fecha de registro") #Añadido
+    fechaRegistro = models.DatesField(auto_now_add=True, verbose_name="Fecha de registro") #Añadido
     
     def __str__(self):
         return '%s - %s - %s' % (self.nombre, self.apPaterno, self.apMaterno)

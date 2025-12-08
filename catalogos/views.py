@@ -184,7 +184,6 @@ def estadisticas(request):
     
     # Agregar estos para la información del sistema
     vehiculos = Vehiculo.objects.all().order_by('-id')
-    #propietarios = Propietario.objects.all().order_by('-fecha_registro') #Arreglado la incosistencia de nombre
     propietarios = Propietario.objects.all()
     
     context = {
